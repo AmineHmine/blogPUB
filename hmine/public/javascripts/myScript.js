@@ -25,7 +25,10 @@ async function getAllUsers(){
 			console.log(user)
 			// buildHTML(user)
 			document.getElementById('tab').innerHTML += buildHTML(user);
+
 		})
 	}
 }
+
+getAllUsers();
 	

@@ -5,7 +5,8 @@ const moment = require('moment')
 
 /* GET home page. */
 router.get('/', async function(req, res){
-	return res.send(await User.getAllUsers())
+	return res.send(await User.getAllUsers()) 
+	
 })
 
 router.get('/:id', async function(req, res){
@@ -31,5 +32,9 @@ router.put('/', async function(req, res){
 	user.updatedAt=moment().format('YYYY/MM/DD h:mm:ss')
 	res.send(await User.updateUser(user))
 })
+
+router.delete('/:id', async function(req, res, next) {
+	res.send(await User.deleteUser(req.params.id));
+});
 
 module.exports = router;

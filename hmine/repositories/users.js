@@ -3,7 +3,7 @@ const { User } = require('../models')
  module.exports = {
   async getAllUsers() {
      return await User.findAll({
-       attributes:['id', 'username', 'email', 'role']
+       attributes:['id', 'username', 'email','role']
      });
    },
    // méthodes à implémenter
@@ -52,7 +52,8 @@ const { User } = require('../models')
       const created = await User.create({ username: user.username,
           email: user.email, password: user.password,
           role: user.role, updatedAt : user.updatedAt, createdAt : user.createdAt});
-      if (created != null){
+      console.log(created)
+      if (created != 0){
         _user.id = created.id
         _user.username = created.username
         _user.email = created.email
@@ -62,30 +63,31 @@ const { User } = require('../models')
       return _user
         
    },
-   async updateUser(user) {
+   async updateUser(user){
     const _user = await this.getUserByEmail(user.email)
-    console.log("USER: ", user)
-    if (_user == null) return {"error": "Can't update user"}
+    if (_user == null) return {"error": "No User with this email"}
     try{
       const updated = await User.update(user, {
         where: {
-          id: _user.id
+          email: user.email
         }
       });
       if (updated == 1) return user;
-      else throw new Error()
+      else throw new Error("error in updating user")
     } catch(error){
+      console.log(error)
       return {"error": "Can't update user"}
     }
 
    },
     async deleteUser(id) { 
-    return await User.destroy({
-        where: {
-          id: id
-        },
-        attributes:['id', 'username', 'email', 'role']
-      });
+      const deleted = await User.destroy({
+          where: {
+            id: id
+          },
+        });
+      if (deleted){ return {message:"User deleted !"}}
+      return {error:"error"}
    },
    // D'autres méthodes jugées utiles
  }

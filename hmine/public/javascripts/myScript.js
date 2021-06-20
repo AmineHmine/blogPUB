@@ -105,7 +105,8 @@ window.addEventListener("DOMContentLoaded", () => {
   addEventListenerToNewElements("delete_user", "click", (_, target) => {
     const userId = target.getAttribute("data-user-id")
     console.log(userId)
-    deleteUser(userId)
+    deleteUser(userId);
+
     getAllUsers();
   })
 
